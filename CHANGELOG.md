@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.0...v1.0.1) (2025-10-25)
+
+
+### Bug Fixes
+
+* Update project and package id's ([501582a](https://github.com/maxs-rose/Aspire-OpenFGA/commit/501582a4372d1904a691e21fa1b8ce02c8f37ec4))
+
 ## 1.0.0 (2025-10-25)
 
 
