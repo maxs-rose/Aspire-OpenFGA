@@ -1,0 +1,15 @@
+module core
+
+type user
+
+type organization
+  relations
+    # Organizational roles
+    define owner: [user]
+    define admin: [user] or owner
+    define member: [user] or admin
+
+    # Core permissions
+    define can_create_profile: admin
+    define can_manage_labels: admin
+    define can_invite_user: admin

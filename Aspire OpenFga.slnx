@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AppHost/AppHost.csproj" />
+  <Project Path="Aspire.Hosting.OpenFga.MySql/Aspire.Hosting.OpenFga.MySql.csproj" />
+  <Project Path="Aspire.Hosting.OpenFga.Postgres/Aspire.Hosting.OpenFga.Postgres.csproj" />
+  <Project Path="Aspire.Hosting.OpenFga.Sqlite/Aspire.Hosting.OpenFga.Sqlite.csproj" />
+  <Project Path="Aspire.Hosting.OpenFga/Aspire.Hosting.OpenFga.csproj" />
+</Solution>

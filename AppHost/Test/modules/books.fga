@@ -1,0 +1,7 @@
+module books
+
+type book
+  relations
+    define profile: [profile]
+    define can_edit: can_edit from profile
+    define can_view: can_view from profile

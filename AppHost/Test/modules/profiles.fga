@@ -1,0 +1,18 @@
+module profiles
+
+type profile
+  relations
+    define org: [organization]
+
+    # Profile ownership and management
+    define owner: [user]
+    define viewer: [user]
+    define editor: [user]
+
+    # Organizational access inheritance
+    define org_editor: admin from org
+    define org_viewer: member from org
+ 
+    # Profile-specific permissions
+    define can_edit: editor or owner or org_editor
+    define can_view: can_edit or viewer or org_viewer

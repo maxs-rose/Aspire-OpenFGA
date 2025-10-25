@@ -1,0 +1,7 @@
+module stories
+
+type story
+  relations
+    define book: [book]
+    define can_edit: can_edit from book
+    define can_view: can_view from book

@@ -1,0 +1,86 @@
+name: Story Authorization Test
+model_file: ../../fga.mod
+
+tuples:
+  # Organization setup - teachers and students
+  - user: user:teacher
+    relation: admin
+    object: organization:school-1
+  
+  - user: user:student1
+    relation: member
+    object: organization:school-1
+  
+  - user: user:student2
+    relation: member
+    object: organization:school-1
+  
+  # Student profile setup
+  - user: user:student1
+    relation: owner
+    object: profile:student1-profile
+  
+  - user: organization:school-1
+    relation: org
+    object: profile:student1-profile
+  
+  - user: user:student2
+    relation: editor
+    object: profile:student1-profile
+  
+  # Book setup  
+  - user: profile:student1-profile
+    relation: profile
+    object: book:student1-logbook
+  
+  # Story relationships
+  - user: book:student1-logbook
+    relation: book
+    object: story:story-1
+
+# Test cases
+tests:
+  - name: Student can access their own story
+    check:
+      - user: user:student1
+        object: story:story-1
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Other student with profile editor access can edit the story
+    check:
+      - user: user:student2
+        object: story:story-1
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Teacher can manage student stories through organization admin role
+    check:
+      - user: user:teacher
+        object: story:story-1
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Other students without profile access cannot access the story
+    check:
+      - user: user:student3
+        object: story:story-1
+        assertions:
+          can_view: false
+          can_edit: false
+          
+  
+  - name: External user cannot access student story
+    check:
+      - user: user:external
+        object: story:story-1
+        assertions:
+          can_view: false
+          can_edit: false
+          

@@ -1,0 +1,108 @@
+name: Profile Permissions Test
+model_file: ../../fga.mod
+
+# Test data - relationship tuples
+tuples:
+  # Organization setup - teachers and students
+  - user: user:teacher1
+    relation: admin
+    object: organization:school-1
+  
+  - user: user:teacher2
+    relation: admin
+    object: organization:school-1
+  
+  - user: user:student1
+    relation: member
+    object: organization:school-1
+  
+  - user: user:student2
+    relation: member
+    object: organization:school-1
+  
+  # Student profile ownership and teacher access
+  - user: user:student1
+    relation: owner
+    object: profile:student1-profile
+  
+  - user: organization:school-1
+    relation: org
+    object: profile:student1-profile
+  
+  - user: user:teacher2
+    relation: editor
+    object: profile:student1-profile
+  
+  - user: user:student2
+    relation: viewer
+    object: profile:student1-profile
+
+# Test cases
+tests:
+  - name: Student can view their own profile
+    check:
+      - user: user:student1
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Teacher (admin) can manage student profiles in their org
+    check:
+      - user: user:teacher1
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Teacher with explicit editor role can edit student profile
+    check:
+      - user: user:teacher2
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Student with explicit viewer role can view other student profile
+    check:
+      - user: user:student2
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+          can_edit: false
+          
+  
+  - name: Student without explicit access gets org member permissions to view other student profiles
+    check:
+      - user: user:student2
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+          can_edit: false
+          
+  
+  - name: Teacher with explicit editor role can edit student profile
+    check:
+      - user: user:teacher2
+        object: profile:student1-profile
+        assertions:
+          can_edit: true
+  
+  - name: Student with explicit viewer role can view other student profile
+    check:
+      - user: user:student2
+        object: profile:student1-profile
+        assertions:
+          can_view: true
+  
+  - name: External user cannot access student profile
+    check:
+      - user: user:external
+        object: profile:student1-profile
+        assertions:
+          can_view: false
+          can_edit: false
+          

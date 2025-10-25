@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.2"/>
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UserSecretsId>ba2e4ddd-3502-4b51-9e02-fca44df2a6f3</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2"/>
+        <PackageReference Include="Aspire.Hosting.MySql" Version="9.5.2"/>
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.5.2"/>
+        <PackageReference Include="CommunityToolkit.Aspire.Hosting.Sqlite" Version="9.8.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Aspire.Hosting.OpenFga.MySql\Aspire.Hosting.OpenFga.MySql.csproj" IsAspireProjectResource="false"/>
+        <ProjectReference Include="..\Aspire.Hosting.OpenFga.Postgres\Aspire.Hosting.OpenFga.Postgres.csproj" IsAspireProjectResource="false"/>
+        <ProjectReference Include="..\Aspire.Hosting.OpenFga.Sqlite\Aspire.Hosting.OpenFga.Sqlite.csproj" IsAspireProjectResource="false"/>
+        <ProjectReference Include="..\Aspire.Hosting.OpenFga\Aspire.Hosting.OpenFga.csproj" IsAspireProjectResource="false"/>
+    </ItemGroup>
+
+</Project>

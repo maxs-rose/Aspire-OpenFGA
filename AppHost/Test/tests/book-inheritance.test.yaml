@@ -1,0 +1,63 @@
+name: Book Permission Inheritance Test
+model_file: ../../fga.mod
+
+tuples:
+  # Organization setup - teachers and students
+  - user: user:teacher
+    relation: admin
+    object: organization:school-1
+  
+  - user: user:student
+    relation: member
+    object: organization:school-1
+  
+  # Student profile setup
+  - user: user:student
+    relation: owner
+    object: profile:student-profile
+  
+  - user: organization:school-1
+    relation: org
+    object: profile:student-profile
+  
+  # Book relationship to profile
+  - user: profile:student-profile
+    relation: profile
+    object: book:student-logbook
+
+tests:
+  - name: Student can access their own book
+    check:
+      - user: user:student
+        object: book:student-logbook
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: Teacher can manage student books through organization admin role
+    check:
+      - user: user:teacher
+        object: book:student-logbook
+        assertions:
+          can_view: true
+          can_edit: true
+          
+  
+  - name: External user cannot access student book
+    check:
+      - user: user:external
+        object: book:student-logbook
+        assertions:
+          can_view: false
+          can_edit: false
+          
+  
+  - name: Other students without profile access cannot access student book
+    check:
+      - user: user:another-student
+        object: book:student-logbook
+        assertions:
+          can_view: false
+          can_edit: false
+          
