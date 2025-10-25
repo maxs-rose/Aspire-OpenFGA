@@ -1,0 +1,21 @@
+<Project>
+    <PropertyGroup>
+        <Version>0.0.0</Version>
+        <Authors>Max Rose</Authors>
+        <Company>Max Rose</Company>
+        <Product>$(MSBuildProjectName)</Product>
+        <PackageId>$(MSBuildProjectName)</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/maxs-rose/Aspire-OpenFGA</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
+        <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Copyright>Copyright © $(Company) $([System.DateTime]::Now.ToString(yyyy))</Copyright>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="." Visible="true"/>
+    </ItemGroup>
+</Project>
