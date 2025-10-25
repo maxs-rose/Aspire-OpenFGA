@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.2...v1.0.3) (2025-10-25)
+
+
+### Bug Fixes
+
+* Use supported image type ([1fafada](https://github.com/maxs-rose/Aspire-OpenFGA/commit/1fafadacb84747ce8131986ec1b72a3ea7c90f37))
+
 ## [1.0.2](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.1...v1.0.2) (2025-10-25)
 
 
