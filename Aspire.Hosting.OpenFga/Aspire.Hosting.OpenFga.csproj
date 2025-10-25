@@ -5,6 +5,8 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Product>Aspire.Hosting.OpenFga</Product>
+        <PackageId>Aspire.Hosting.OpenFga</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Aspire.Hosting.OpenFga</RootNamespace>
+        <Product>Aspire.Hosting.OpenFga.Postgres</Product>
+        <PackageId>Aspire.Hosting.OpenFga.Postgres</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

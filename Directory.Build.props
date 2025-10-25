@@ -4,8 +4,6 @@
         <Authors>Max Rose</Authors>
         <Company>Max Rose</Company>
         <PackageIcon>icon.png</PackageIcon>
-        <Product>$(MSBuildProjectName)</Product>
-        <PackageId>$(MSBuildProjectName)</PackageId>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/maxs-rose/Aspire-OpenFGA</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>

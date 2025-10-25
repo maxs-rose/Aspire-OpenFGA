@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Aspire.Hosting.OpenFga</RootNamespace>
+        <Product>Aspire.Hosting.OpenFga.MySql</Product>
+        <PackageId>Aspire.Hosting.OpenFga.MySql</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
