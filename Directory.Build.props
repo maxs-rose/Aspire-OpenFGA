@@ -4,6 +4,8 @@
         <Authors>Max Rose</Authors>
         <Company>Max Rose</Company>
         <PackageIcon>icon.png</PackageIcon>
+        <Description>Aspire hosting integration for OpenFGA</Description>
+        <iconUrl>https://raw.githubusercontent.com/maxs-rose/Aspire-OpenFGA/main/assets/icon.svg</iconUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/maxs-rose/Aspire-OpenFGA</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -11,6 +13,7 @@
         <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <Copyright>Copyright © $(Company) $([System.DateTime]::Now.ToString(yyyy))</Copyright>
+        <tags>openfga authorization fga fine-grained-authorization rebac aspire integration hosting</tags>
     </PropertyGroup>
 
 
