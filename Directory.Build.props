@@ -5,7 +5,7 @@
         <Company>Max Rose</Company>
         <PackageIcon>icon.png</PackageIcon>
         <Description>Aspire hosting integration for OpenFGA</Description>
-        <iconUrl>https://raw.githubusercontent.com/maxs-rose/Aspire-OpenFGA/main/assets/icon.svg</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/maxs-rose/Aspire-OpenFGA/main/assets/icon.png</iconUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/maxs-rose/Aspire-OpenFGA</PackageProjectUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
