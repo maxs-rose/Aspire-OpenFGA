@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.1...v1.0.2) (2025-10-25)
+
+
+### Bug Fixes
+
+* Add icon url and tags to nuget ([a5f3782](https://github.com/maxs-rose/Aspire-OpenFGA/commit/a5f3782b27a4a6a628ad8bea431543b58673117f))
+
 ## [1.0.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.0...v1.0.1) (2025-10-25)
 
 
