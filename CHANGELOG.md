@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.4...v1.0.5) (2025-10-26)
+
+
+### Bug Fixes
+
+* Update icon settings ([ccda6b9](https://github.com/maxs-rose/Aspire-OpenFGA/commit/ccda6b9418e37738f773be60cd5a9f4b9bfb8f3e))
+
 ## [1.0.4](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.3...v1.0.4) (2025-10-26)
 
 
