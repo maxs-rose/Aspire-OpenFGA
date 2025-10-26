@@ -16,9 +16,8 @@
         <tags>openfga authorization fga fine-grained-authorization rebac aspire integration hosting</tags>
     </PropertyGroup>
 
-
     <ItemGroup>
         <None Include="..\README.md" Pack="true" PackagePath="." Visible="true"/>
-        <None Include="..\assets\icon.png" Pack="true" PackagePath="." Visible="true"/>
+        <None Include="..\assets\icon.png" Pack="true" Visible="false" PackagePath="\" Link="Content\Icon"/>
     </ItemGroup>
 </Project>
