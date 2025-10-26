@@ -69,10 +69,7 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
 
         try
         {
-            var store = await client.CreateStore(new ClientCreateStoreRequest { Name = Name }, cancellationToken: ct);
-            _containerId = store.Id;
-
-            logger.LogInformation("Created container {Name} with ID {Id}", Name, _containerId);
+            _containerId = await GetOrCreateContainer(client, logger, ct);
         }
         catch (Exception ex)
         {
@@ -84,6 +81,43 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
         }
 
         return !string.IsNullOrEmpty(_containerId);
+    }
+
+    private async Task<string> GetOrCreateContainer(OpenFgaClient client, ILogger logger, CancellationToken ct)
+    {
+        var result = await client.ListStores(new ClientListStoresRequest
+        {
+            Name = Name
+        }, cancellationToken: ct);
+
+        switch (result.Stores)
+        {
+            case { Count: 1 }:
+            {
+                logger.LogInformation("Found existing container {Name} with ID {Id}", Name, _containerId);
+
+                return result.Stores[0].Id;
+            }
+            case { Count: > 1 }:
+            {
+                logger.LogWarning("Found multiple containers with name {Name}: {@Stores}", Name, result.Stores.Select(s => s.Id));
+
+                var store = result.Stores[0];
+                logger.LogWarning("Using store {Id}", store.Id);
+
+                return store.Id;
+            }
+            case { Count: 0 }:
+            {
+                var response = await client.CreateStore(new ClientCreateStoreRequest { Name = Name }, cancellationToken: ct);
+
+                logger.LogInformation("Created container {Name} with ID {Id}", response.Name, response.Id);
+
+                return response.Id;
+            }
+            default:
+                throw new InvalidOperationException();
+        }
     }
 
     internal void AddClientCallback(ContainerClientCallback callback)
