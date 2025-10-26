@@ -15,7 +15,6 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
     private readonly List<ContainerClientCallback> _clientCallbacks = [];
     private string _containerId = string.Empty;
     internal TaskCompletionSource StoreReadyTcs { get; } = new();
-    internal TaskCompletionSource FileImportCompleteTcs { get; } = new();
 
     public OpenFgaResource Parent { get; } = parent;
 

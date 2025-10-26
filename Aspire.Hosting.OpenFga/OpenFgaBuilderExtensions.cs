@@ -14,7 +14,8 @@ public static class OpenFgaBuilderExtensions
         var openFgaResource = new OpenFgaResource(name);
 
         var res = builder.AddResource(openFgaResource)
-            .WithImage("openfga/openfga", "latest")
+            .WithImage(OpenFgaContainerImageTags.Image, OpenFgaContainerImageTags.Tag)
+            .WithImageRegistry(OpenFgaContainerImageTags.Registry)
             .WithHttpEndpoint(name: "http", targetPort: httpPort, port: proxy ? null : httpPort, isProxied: proxy)
             .WithHttpEndpoint(name: "grpc", targetPort: grpcPort, port: proxy ? null : grpcPort, isProxied: proxy)
             .WithEnvironment("OPENFGA_GRPC_ADDR", $"[::]:{grpcPort}".ToString)
@@ -117,7 +118,8 @@ public static class OpenFgaBuilderExtensions
     {
         var annotation = new StoreModelWriteAnnotation(builder.Resource, name);
 
-        var res = builder.ApplicationBuilder.AddContainer(name, "openfga/cli", "latest")
+        var res = builder.ApplicationBuilder.AddContainer(name, OpenFgaContainerImageTags.CliImage, OpenFgaContainerImageTags.CliTag)
+            .WithImageRegistry(OpenFgaContainerImageTags.Registry)
             .WithEnvironment("FGA_STORE_ID", builder)
             .WithEnvironment("FGA_API_URL", builder.Resource.Parent.HttpEndpoint)
             .WithBindMount(pathToDefinition, "/schema", true)
