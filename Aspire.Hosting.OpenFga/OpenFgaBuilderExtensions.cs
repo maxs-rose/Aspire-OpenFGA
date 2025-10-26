@@ -8,14 +8,15 @@ namespace Aspire.Hosting.OpenFga;
 
 public static class OpenFgaBuilderExtensions
 {
-    public static IResourceBuilder<OpenFgaResource> AddOpenFga(this IDistributedApplicationBuilder builder, string name, int httpPort = 8080, int grpcPort = 8081, bool proxy = true)
+    public static IResourceBuilder<OpenFgaResource> AddOpenFga(this IDistributedApplicationBuilder builder, string name,
+        int httpPort = 8080, int grpcPort = 8081, bool proxy = true)
     {
         var openFgaResource = new OpenFgaResource(name);
 
         var res = builder.AddResource(openFgaResource)
             .WithImage("openfga/openfga", "latest")
-            .WithHttpEndpoint(name: "http", targetPort: grpcPort, port: proxy ? null : grpcPort, isProxied: proxy)
-            .WithHttpEndpoint(name: "grpc", targetPort: httpPort, port: proxy ? null : httpPort, isProxied: proxy)
+            .WithHttpEndpoint(name: "http", targetPort: httpPort, port: proxy ? null : httpPort, isProxied: proxy)
+            .WithHttpEndpoint(name: "grpc", targetPort: grpcPort, port: proxy ? null : grpcPort, isProxied: proxy)
             .WithEnvironment("OPENFGA_GRPC_ADDR", $"[::]:{grpcPort}".ToString)
             .WithEnvironment("OPENFGA_HTTP_ADDR", $"0.0.0.0:{httpPort}".ToString())
             .WithArgs("run", "--playground-enabled=false")
@@ -45,7 +46,8 @@ public static class OpenFgaBuilderExtensions
             });
     }
 
-    public static IResourceBuilder<OpenFgaResource> WithClientCallback(this IResourceBuilder<OpenFgaResource> builder, ResourceClientCallback callback)
+    public static IResourceBuilder<OpenFgaResource> WithClientCallback(this IResourceBuilder<OpenFgaResource> builder,
+        ResourceClientCallback callback)
     {
         builder.Resource.AddClientCallback(callback);
         return builder;
@@ -59,7 +61,8 @@ public static class OpenFgaBuilderExtensions
         return OpenFgaDatastoreResource.CreateDatastore(builder, engine, datastoreUri);
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> AddContainer(this IResourceBuilder<OpenFgaResource> builder, string name)
+    public static IResourceBuilder<OpenFgaContainerResource> AddContainer(
+        this IResourceBuilder<OpenFgaResource> builder, string name)
     {
         var container = new OpenFgaContainerResource(builder.Resource, name);
 
@@ -80,7 +83,8 @@ public static class OpenFgaBuilderExtensions
         builder.ApplicationBuilder.Eventing.Subscribe<ContainerCreatedEvent>(container, (e, ct) =>
         {
             if (e.Resource is OpenFgaContainerResource containerResource)
-                return containerResource.RunClientCallbacks(e.ServiceProvider.GetRequiredService<ResourceLoggerService>().GetLogger(e.Resource), ct);
+                return containerResource.RunClientCallbacks(
+                    e.ServiceProvider.GetRequiredService<ResourceLoggerService>().GetLogger(e.Resource), ct);
 
             return Task.CompletedTask;
         });
@@ -95,13 +99,15 @@ public static class OpenFgaBuilderExtensions
             });
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> WithClientCallback(this IResourceBuilder<OpenFgaContainerResource> builder, ContainerClientCallback callback)
+    public static IResourceBuilder<OpenFgaContainerResource> WithClientCallback(
+        this IResourceBuilder<OpenFgaContainerResource> builder, ContainerClientCallback callback)
     {
         builder.Resource.AddClientCallback(callback);
         return builder;
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> WithModelDefinition(this IResourceBuilder<OpenFgaContainerResource> builder, string name, string pathToDefinition, string modelFile)
+    public static IResourceBuilder<OpenFgaContainerResource> WithModelDefinition(
+        this IResourceBuilder<OpenFgaContainerResource> builder, string name, string pathToDefinition, string modelFile)
     {
         var annotation = new StoreModelWriteAnnotation(builder.Resource, name);
 
@@ -138,7 +144,8 @@ public static class OpenFgaBuilderExtensions
         return builder;
     }
 
-    public static IResourceBuilder<T> WithEnvironment<T>(this IResourceBuilder<T> builder, string name, IResourceBuilder<OpenFgaContainerResource> container)
+    public static IResourceBuilder<T> WithEnvironment<T>(this IResourceBuilder<T> builder, string name,
+        IResourceBuilder<OpenFgaContainerResource> container)
         where T : IResourceWithEnvironment
     {
         builder.WithReferenceRelationship(container);
