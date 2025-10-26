@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.1.1...v2.0.0) (2025-10-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename OpenFgaContainerResource to OpenFgaStoreResource
+
+### Features
+
+* Rename OpenFgaContainerResource to OpenFgaStoreResource ([bec16ae](https://github.com/maxs-rose/Aspire-OpenFGA/commit/bec16ae13707dcc42410ad8613c2de5f52ed8ccc))
+
 ## [1.1.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.1.0...v1.1.1) (2025-10-26)
 
 
