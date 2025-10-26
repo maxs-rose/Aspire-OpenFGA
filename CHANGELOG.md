@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.5...v1.1.0) (2025-10-26)
+
+
+### Features
+
+* Allow for adoption of existing stores ([08f5e63](https://github.com/maxs-rose/Aspire-OpenFGA/commit/08f5e63b900c765f0f5269c5694c0d9cf652a119))
+
+
+### Bug Fixes
+
+* Set correct initial state for a store ([12f5fe1](https://github.com/maxs-rose/Aspire-OpenFGA/commit/12f5fe1dc710049b7528d28f040a5737db8acfcb))
+* Set correct port for http and grpc in endpoints ([46cc2e9](https://github.com/maxs-rose/Aspire-OpenFGA/commit/46cc2e940913e4568a6857e335aa9d36a293087b))
+
 ## [1.0.5](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.4...v1.0.5) (2025-10-26)
 
 
