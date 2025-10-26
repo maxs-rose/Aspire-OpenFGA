@@ -10,9 +10,9 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Engines](#engines)
-  - [Postgres](#postgres)
-  - [MySQL](#mysql)
-  - [SQLite](#sqlite)
+    - [Postgres](#postgres)
+    - [MySQL](#mysql)
+    - [SQLite](#sqlite)
 - [Playground](#playground)
 - [Model Definition](#model-definition)
 - [Client Callbacks](#client-callbacks)
@@ -24,14 +24,15 @@
 Core package: `Aspire.Hosting.OpenFga`
 
 Engine packages:
+
 - `Aspire.Hosting.OpenFga.Postgres`
 - `Aspire.Hosting.OpenFga.MySQL`
 - `Aspire.Hosting.OpenFga.Sqlite`
 
 # Usage
 
-By defailt AddOpenFga will setup a container with `http` and `grpc` endpoints with the engine 
-set to in-memory. Contianers can be added using `AddContainer` and models imported from files 
+By defailt AddOpenFga will setup a container with `http` and `grpc` endpoints with the engine
+set to in-memory. Contianers can be added using `AddContainer` and models imported from files
 using `WithModelDefinition`.
 
 ```c#
@@ -49,7 +50,7 @@ builder.AddProject<MyProject>("project")
 
 ### Postgres
 
-To use the postgres engine install `Aspire.Hosting.OpenFga.Postgres` and call `WithDatastore` 
+To use the postgres engine install `Aspire.Hosting.OpenFga.Postgres` and call `WithDatastore`
 on the OpenFGA resource.
 
 ```c#
@@ -96,16 +97,16 @@ builder.AddOpenFga("openfga")
 
 ### Custom Engine
 
-To use a custom engine users shoud call `WithDatastore(engine, datastoreUri)` on the OpenFGA 
+To use a custom engine users shoud call `WithDatastore(engine, datastoreUri)` on the OpenFGA
 resource. This will return an instance of `IResourceBuilder<OpenFgaDatastoreResource>` configuring
-the parent `OpenFgaResource`'s and the `OpenFgaDatastoreResource` resources 
+the parent `OpenFgaResource`'s and the `OpenFgaDatastoreResource` resources
 `OPENFGA_DATASTORE_ENGINE`, `OPENFGA_DATASTORE_URI` environment variables. The relationshiop between
 the `OpenFgaDatastoreResource` and `OpenFgaResource` resource is also configured such that the
 `OpenFgaResource` will wait for the completion of the `OpenFgaDatastoreResource`.
 
 ## Playground
 
-The playground cna be enabled by calling `WithPlayground` on the OpenFGA resource. This will 
+The playground can be enabled by calling `WithPlayground` on the OpenFGA resource. This will
 add a new "playground" endpoint to the OpenFGA resource.
 
 ```c#
@@ -113,9 +114,12 @@ builder.AddOpenFga("openfga")
     .WithPlayground();
 ```
 
+> [!IMPORTANT]
+> When the playground is enabled the `http` endpoint will not be proxied by Aspire
+
 ## Model Definition
 
-Models can be imported from files using `WithModelDefinition`. This will import the modes from the 
+Models can be imported from files using `WithModelDefinition`. This will import the modes from the
 specified path into the container the method was called on.
 
 ```c#

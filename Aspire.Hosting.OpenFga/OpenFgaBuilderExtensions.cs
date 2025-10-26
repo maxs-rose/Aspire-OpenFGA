@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Sockets;
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.OpenFga.Events;
 using Aspire.Hosting.OpenFga.Models;
@@ -10,31 +8,16 @@ namespace Aspire.Hosting.OpenFga;
 
 public static class OpenFgaBuilderExtensions
 {
-    public static IResourceBuilder<OpenFgaResource> AddOpenFga(this IDistributedApplicationBuilder builder, string name, int? httpPort = null, int? grpcPort = null)
+    public static IResourceBuilder<OpenFgaResource> AddOpenFga(this IDistributedApplicationBuilder builder, string name, int httpPort = 8080, int grpcPort = 8081, bool proxy = true)
     {
-        static int PortProvider(int? port)
-        {
-            if (port is not null)
-                return port.Value;
-
-            using var server = new TcpListener(IPAddress.Loopback, 0);
-            server.Start();
-            var targetPort = ((IPEndPoint)server.LocalEndpoint).Port;
-            server.Stop();
-
-            return targetPort;
-        }
-
         var openFgaResource = new OpenFgaResource(name);
-
-        var targetHttpPort = PortProvider(httpPort);
 
         var res = builder.AddResource(openFgaResource)
             .WithImage("openfga/openfga", "latest")
-            .WithHttpEndpoint(name: "http", targetPort: targetHttpPort, port: targetHttpPort)
-            .WithHttpEndpoint(name: "grpc", targetPort: 8081, port: grpcPort)
-            .WithEnvironment("OPENFGA_GRPC_ADDR", "[::]:8081")
-            .WithEnvironment("OPENFGA_HTTP_ADDR", $"0.0.0.0:{targetHttpPort}".ToString())
+            .WithHttpEndpoint(name: "http", targetPort: grpcPort, port: proxy ? null : grpcPort, isProxied: proxy)
+            .WithHttpEndpoint(name: "grpc", targetPort: httpPort, port: proxy ? null : httpPort, isProxied: proxy)
+            .WithEnvironment("OPENFGA_GRPC_ADDR", $"[::]:{grpcPort}".ToString)
+            .WithEnvironment("OPENFGA_HTTP_ADDR", $"0.0.0.0:{httpPort}".ToString())
             .WithArgs("run", "--playground-enabled=false")
             .WithIconName("LockClosedRibbon");
 
@@ -50,6 +33,8 @@ public static class OpenFgaBuilderExtensions
 
     public static IResourceBuilder<OpenFgaResource> WithPlayground(this IResourceBuilder<OpenFgaResource> builder)
     {
+        builder.Resource.Annotations.OfType<EndpointAnnotation>().Single(e => e.Name == "http").IsProxied = false;
+
         return builder.WithArgs("--playground-enabled", "--playground-port", "3001")
             .WithArgs(ctx => ctx.Args.Remove("--playground-enabled=false"))
             .WithHttpEndpoint(name: "playground", targetPort: 3001)
