@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.1.0...v1.1.1) (2025-10-26)
+
+
+### Bug Fixes
+
+* Add icon url into package ([5fc0b65](https://github.com/maxs-rose/Aspire-OpenFGA/commit/5fc0b6596419dbcba308c97d4f22595f10d131fc))
+
 ## [1.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.5...v1.1.0) (2025-10-26)
 
 
