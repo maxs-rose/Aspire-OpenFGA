@@ -9,11 +9,11 @@ using OpenFga.Sdk.Client.Model;
 
 namespace Aspire.Hosting.OpenFga;
 
-public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name)
+public sealed class OpenFgaStoreResource(OpenFgaResource parent, string name)
     : Resource(name), IResourceWithParent<OpenFgaResource>, IValueProvider
 {
-    private readonly List<ContainerClientCallback> _clientCallbacks = [];
-    private string _containerId = string.Empty;
+    private readonly List<StoreClientCallback> _clientCallbacks = [];
+    private string _storeId = string.Empty;
     internal TaskCompletionSource StoreReadyTcs { get; } = new();
 
     public OpenFgaResource Parent { get; } = parent;
@@ -22,24 +22,24 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
     {
         await StoreReadyTcs.Task.WaitAsync(ct).ConfigureAwait(false);
 
-        return _containerId;
+        return _storeId;
     }
 
     internal async Task Initialize(InitializeResourceEvent ctx, CancellationToken ct)
     {
-        var result = await CreateContainer(ctx.Logger, ct);
+        var result = await CreateStore(ctx.Logger, ct);
 
         if (result)
         {
-            Debug.Assert(_containerId is not null, "Container ID should not be null here");
+            Debug.Assert(_storeId is not null, "Store ID should not be null here");
 
             await ctx.Notifications.PublishUpdateAsync(this, snap => snap with
             {
                 State = new ResourceStateSnapshot(KnownResourceStates.Active, KnownResourceStateStyles.Success),
-                Properties = [..snap.Properties, new ResourcePropertySnapshot(CustomResourceKnownProperties.Source, _containerId)]
+                Properties = [..snap.Properties, new ResourcePropertySnapshot(CustomResourceKnownProperties.Source, _storeId)]
             });
 
-            await ctx.Eventing.PublishAsync(new ContainerCreatedEvent(this, _containerId, ctx.Services), EventDispatchBehavior.NonBlockingConcurrent, ct);
+            await ctx.Eventing.PublishAsync(new StoreCreatedEvent(this, _storeId, ctx.Services), EventDispatchBehavior.NonBlockingConcurrent, ct);
         }
         else
         {
@@ -50,9 +50,9 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
         }
     }
 
-    private async Task<bool> CreateContainer(ILogger logger, CancellationToken ct)
+    private async Task<bool> CreateStore(ILogger logger, CancellationToken ct)
     {
-        logger.LogInformation("Creating container");
+        logger.LogInformation("Creating store");
 
         var reference = ReferenceExpression.Create($"{Parent.HttpEndpoint}");
 
@@ -63,7 +63,7 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
 
         try
         {
-            _containerId = await GetOrCreateContainer(client, logger, ct);
+            _storeId = await GetOrCreateStore(client, logger, ct);
         }
         catch (Exception ex)
         {
@@ -74,10 +74,10 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
             StoreReadyTcs.SetResult();
         }
 
-        return !string.IsNullOrEmpty(_containerId);
+        return !string.IsNullOrEmpty(_storeId);
     }
 
-    private async Task<string> GetOrCreateContainer(OpenFgaClient client, ILogger logger, CancellationToken ct)
+    private async Task<string> GetOrCreateStore(OpenFgaClient client, ILogger logger, CancellationToken ct)
     {
         var result = await client.ListStores(new ClientListStoresRequest
         {
@@ -88,13 +88,13 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
         {
             case { Count: 1 }:
             {
-                logger.LogInformation("Found existing container {Name} with ID {Id}", Name, _containerId);
+                logger.LogInformation("Found existing store {Name} with ID {Id}", Name, _storeId);
 
                 return result.Stores[0].Id;
             }
             case { Count: > 1 }:
             {
-                logger.LogWarning("Found multiple containers with name {Name}: {@Stores}", Name, result.Stores.Select(s => s.Id));
+                logger.LogWarning("Found multiple stores with name {Name}: {@Stores}", Name, result.Stores.Select(s => s.Id));
 
                 var store = result.Stores[0];
                 logger.LogWarning("Using store {Id}", store.Id);
@@ -105,7 +105,7 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
             {
                 var response = await client.CreateStore(new ClientCreateStoreRequest { Name = Name }, cancellationToken: ct);
 
-                logger.LogInformation("Created container {Name} with ID {Id}", response.Name, response.Id);
+                logger.LogInformation("Created store {Name} with ID {Id}", response.Name, response.Id);
 
                 return response.Id;
             }
@@ -114,7 +114,7 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
         }
     }
 
-    internal void AddClientCallback(ContainerClientCallback callback)
+    internal void AddClientCallback(StoreClientCallback callback)
     {
         _clientCallbacks.Add(callback);
     }
@@ -127,7 +127,7 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
             return;
         }
 
-        var context = new ContainerClientContext(new OpenFgaClient(new ClientConfiguration
+        var context = new StoreClientContext(new OpenFgaClient(new ClientConfiguration
         {
             ApiUrl = $"{await ReferenceExpression.Create($"{Parent.HttpEndpoint}").GetValueAsync(ct)}",
             StoreId = await GetValueAsync(ct)

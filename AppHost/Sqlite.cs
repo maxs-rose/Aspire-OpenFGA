@@ -12,7 +12,7 @@ public static class Sqlite
         builder.AddOpenFga("openfga-sqlite")
             .WithPlayground()
             .WithDatastore(sqlite)
-            .AddContainer("sqlite-test-store")
+            .AddStore("sqlite-test-store")
             .WithModelDefinition("sqlite-models", Path.Join(builder.AppHostDirectory, "Test"), "fga.mod");
     }
 }

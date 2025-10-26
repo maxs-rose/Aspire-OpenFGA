@@ -31,20 +31,23 @@ Engine packages:
 
 # Usage
 
-By defailt AddOpenFga will setup a container with `http` and `grpc` endpoints with the engine
-set to in-memory. Contianers can be added using `AddContainer` and models imported from files
+By defailt AddOpenFga will setup a store with `http` and `grpc` endpoints with the engine
+set to in-memory. Contianers can be added using `AddStore` and models imported from files
 using `WithModelDefinition`.
 
 ```c#
 var openFga = builder.AddOpenFga("openfga");
 
-var container = openFga.AddContainer("my-container")
+var store = openFga.AddStore("my-store")
     .WithModelDefinition("models", Path.Join(builder.AppHostDirectory, "Models"), "fga.mod");
 
 builder.AddProject<MyProject>("project")
-    .WithEnvironment("OpenFga__Connection", container.HttpEndpoint)
-    .WithEnvironment("OpenFga__Container", container)
+    .WithEnvironment("OpenFga__Connection", store.HttpEndpoint)
+    .WithEnvironment("OpenFga__Store", store)
 ```
+
+The `AddStore` method will adopt the Store ID of an existing store in the `openFga` resource
+if a store with the same name already exists.
 
 # Engines
 
@@ -120,23 +123,23 @@ builder.AddOpenFga("openfga")
 ## Model Definition
 
 Models can be imported from files using `WithModelDefinition`. This will import the modes from the
-specified path into the container the method was called on.
+specified path into the store the method was called on.
 
 ```c#
 builder.AddOpenFga("openfga")
-    .AddContainer("my-container")
+    .AddStore("my-store")
     .WithModelDefinition("models", Path.Join(builder.AppHostDirectory, "Models"), "fga.mod");
 ```
 
 ## Client Callbacks
 
-For arbitrary client callbacks use `WithClientCallback`. This will add a callback to the container
-that will be called when the container is started. The callback is provided with a `OpenFgaClient`
-instance that is configured to connect a container when used on a container resource.
+For arbitrary client callbacks use `WithClientCallback`. This will add a callback that will be called
+when the resource is started. The callback is provided with a `OpenFgaClient` instance that is
+configured to connect a store when used on a store resource.
 
 ```c#
 builder.AddOpenFga("openfga")
-    .AddContainer("my-container")
+    .AddStore("my-store")
     .WithClientCallback(static async (ctx, ct) =>
     {
         await ctx.Client.ReadAuthorizationModels(

@@ -12,7 +12,7 @@ public static class Postgres
         builder.AddOpenFga("openfga-portgres")
             .WithPlayground()
             .WithDatastore(database)
-            .AddContainer("postgres-test-store")
+            .AddStore("postgres-test-store")
             .WithModelDefinition("postgres-models", Path.Join(builder.AppHostDirectory, "Test"), "fga.mod");
     }
 }

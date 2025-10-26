@@ -32,7 +32,7 @@ public sealed class OpenFgaResource : ContainerResource
             return;
         }
 
-        var context = new ContainerClientContext(new OpenFgaClient(new ClientConfiguration
+        var context = new StoreClientContext(new OpenFgaClient(new ClientConfiguration
         {
             ApiUrl = $"{await ReferenceExpression.Create($"{HttpEndpoint}").GetValueAsync(ct)}"
         }));

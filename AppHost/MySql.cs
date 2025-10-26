@@ -12,7 +12,7 @@ public static class MySql
         builder.AddOpenFga("openfga-mysql")
             .WithPlayground()
             .WithDatastore(database)
-            .AddContainer("mysql-test-store")
+            .AddStore("mysql-test-store")
             .WithModelDefinition("mysql-models", Path.Join(builder.AppHostDirectory, "Test"), "fga.mod");
     }
 }

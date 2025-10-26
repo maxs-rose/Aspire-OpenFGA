@@ -62,10 +62,10 @@ public static class OpenFgaBuilderExtensions
         return OpenFgaDatastoreResource.CreateDatastore(builder, engine, datastoreUri);
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> AddContainer(
+    public static IResourceBuilder<OpenFgaStoreResource> AddStore(
         this IResourceBuilder<OpenFgaResource> builder, string name)
     {
-        var container = new OpenFgaContainerResource(builder.Resource, name);
+        var store = new OpenFgaStoreResource(builder.Resource, name);
 
         var parentReady = new TaskCompletionSource();
 
@@ -81,16 +81,16 @@ public static class OpenFgaBuilderExtensions
             return Task.CompletedTask;
         });
 
-        builder.ApplicationBuilder.Eventing.Subscribe<ContainerCreatedEvent>(container, (e, ct) =>
+        builder.ApplicationBuilder.Eventing.Subscribe<StoreCreatedEvent>(store, (e, ct) =>
         {
-            if (e.Resource is OpenFgaContainerResource containerResource)
-                return containerResource.RunClientCallbacks(
+            if (e.Resource is OpenFgaStoreResource resource)
+                return resource.RunClientCallbacks(
                     e.ServiceProvider.GetRequiredService<ResourceLoggerService>().GetLogger(e.Resource), ct);
 
             return Task.CompletedTask;
         });
 
-        return builder.ApplicationBuilder.AddResource(container)
+        return builder.ApplicationBuilder.AddResource(store)
             .WithIconName("Database")
             .WithInitialState(new CustomResourceSnapshot
             {
@@ -106,15 +106,15 @@ public static class OpenFgaBuilderExtensions
             });
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> WithClientCallback(
-        this IResourceBuilder<OpenFgaContainerResource> builder, ContainerClientCallback callback)
+    public static IResourceBuilder<OpenFgaStoreResource> WithClientCallback(
+        this IResourceBuilder<OpenFgaStoreResource> builder, StoreClientCallback callback)
     {
         builder.Resource.AddClientCallback(callback);
         return builder;
     }
 
-    public static IResourceBuilder<OpenFgaContainerResource> WithModelDefinition(
-        this IResourceBuilder<OpenFgaContainerResource> builder, string name, string pathToDefinition, string modelFile)
+    public static IResourceBuilder<OpenFgaStoreResource> WithModelDefinition(
+        this IResourceBuilder<OpenFgaStoreResource> builder, string name, string pathToDefinition, string modelFile)
     {
         var annotation = new StoreModelWriteAnnotation(builder.Resource, name);
 
@@ -153,10 +153,10 @@ public static class OpenFgaBuilderExtensions
     }
 
     public static IResourceBuilder<T> WithEnvironment<T>(this IResourceBuilder<T> builder, string name,
-        IResourceBuilder<OpenFgaContainerResource> container)
+        IResourceBuilder<OpenFgaStoreResource> store)
         where T : IResourceWithEnvironment
     {
-        builder.WithReferenceRelationship(container);
-        return builder.WithEnvironment(ctx => ctx.EnvironmentVariables[name] = container.Resource);
+        builder.WithReferenceRelationship(store);
+        return builder.WithEnvironment(ctx => ctx.EnvironmentVariables[name] = store.Resource);
     }
 }
