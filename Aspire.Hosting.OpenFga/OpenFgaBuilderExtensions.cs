@@ -91,6 +91,12 @@ public static class OpenFgaBuilderExtensions
 
         return builder.ApplicationBuilder.AddResource(container)
             .WithIconName("Database")
+            .WithInitialState(new CustomResourceSnapshot
+            {
+                State = new ResourceStateSnapshot(KnownResourceStates.Waiting, KnownResourceStateStyles.Info),
+                ResourceType = "OpenFgaStore",
+                Properties = []
+            })
             .OnInitializeResource(async (r, ctx, ct) =>
             {
                 await parentReady.Task.WaitAsync(ct).ConfigureAwait(false);

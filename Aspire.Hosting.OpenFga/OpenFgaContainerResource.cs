@@ -28,11 +28,6 @@ public sealed class OpenFgaContainerResource(OpenFgaResource parent, string name
 
     internal async Task Initialize(InitializeResourceEvent ctx, CancellationToken ct)
     {
-        await ctx.Notifications.PublishUpdateAsync(this, snap => snap with
-        {
-            State = new ResourceStateSnapshot(KnownResourceStates.Running, KnownResourceStateStyles.Info)
-        });
-
         var result = await CreateContainer(ctx.Logger, ct);
 
         if (result)
