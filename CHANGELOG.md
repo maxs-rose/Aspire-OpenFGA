@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.3...v1.0.4) (2025-10-26)
+
+
+### Bug Fixes
+
+* Disable http endpoint proxy when playground enabled ([67bbb93](https://github.com/maxs-rose/Aspire-OpenFGA/commit/67bbb9309cf8a4ed9edaa9ce34f50fe753af60e4))
+
 ## [1.0.3](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.0.2...v1.0.3) (2025-10-25)
 
 
