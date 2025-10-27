@@ -9,7 +9,7 @@ public static class Postgres
         var database = builder.AddPostgres("postgres")
             .AddDatabase("pg-db");
 
-        builder.AddOpenFga("openfga-portgres")
+        builder.AddOpenFga("openfga-portgres", 8084, 8085)
             .WithPlayground()
             .WithDatastore(database)
             .AddStore("postgres-test-store")

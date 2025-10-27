@@ -9,7 +9,7 @@ public static class Sqlite
     {
         var sqlite = builder.AddSqlite("sqlite");
 
-        builder.AddOpenFga("openfga-sqlite")
+        builder.AddOpenFga("openfga-sqlite", 8086, 8087)
             .WithPlayground()
             .WithDatastore(sqlite)
             .AddStore("sqlite-test-store")

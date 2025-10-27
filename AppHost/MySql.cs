@@ -9,7 +9,7 @@ public static class MySql
         var database = builder.AddMySql("mysql")
             .AddDatabase("mysql-db");
 
-        builder.AddOpenFga("openfga-mysql")
+        builder.AddOpenFga("openfga-mysql", 8082, 8083)
             .WithPlayground()
             .WithDatastore(database)
             .AddStore("mysql-test-store")
