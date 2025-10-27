@@ -20,7 +20,7 @@ public static class OpenFgaBuilderExtensions
             .WithHttpEndpoint(name: "grpc", targetPort: grpcPort, port: proxy ? null : grpcPort, isProxied: proxy)
             .WithEnvironment("OPENFGA_GRPC_ADDR", $"[::]:{grpcPort}".ToString)
             .WithEnvironment("OPENFGA_HTTP_ADDR", $"0.0.0.0:{httpPort}".ToString())
-            .WithArgs("run", "--playground-enabled=false")
+            .WithArgs("run", "--playground-enabled=false", "--metrics-enabled=false")
             .WithIconName("LockClosedRibbon");
 
         res.ApplicationBuilder.Eventing.Subscribe<ResourceReadyEvent>(res.Resource, static (ctx, ct) =>
@@ -52,6 +52,17 @@ public static class OpenFgaBuilderExtensions
     {
         builder.Resource.AddClientCallback(callback);
         return builder;
+    }
+
+    public static IResourceBuilder<OpenFgaResource> WithMetrics(this IResourceBuilder<OpenFgaResource> builder, int port = 2112, bool proxy = true)
+    {
+        return builder.WithHttpEndpoint(name: "metrics", targetPort: port, port: proxy ? null : port, isProxied: proxy)
+            .WithEnvironment("OPENFGA_METRICS_ADDR", $"0.0.0.0:{port}".ToString())
+            .WithArgs(ctx =>
+            {
+                ctx.Args.Remove("--metrics-enabled=false");
+                ctx.Args.Add("--metrics-enabled=true");
+            });
     }
 
     public static IResourceBuilder<OpenFgaDatastoreResource> WithDatastore(

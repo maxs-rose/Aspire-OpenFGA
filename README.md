@@ -150,3 +150,13 @@ builder.AddOpenFga("openfga")
 
 > [!IMPORTANT]
 > Ordering is not guaranteed between `WihthModelDefinition` and `WithClientCallback`
+
+## Metrics
+
+By default, the metrics endpoint is disabled. To enable `WithMetrics` should be used. By default this will
+proxy the metrics endpoint.
+
+```c#
+builder.AddOpenFga("openfga")
+    .WithMetrics(port: 2112, proxy: true);
+```
