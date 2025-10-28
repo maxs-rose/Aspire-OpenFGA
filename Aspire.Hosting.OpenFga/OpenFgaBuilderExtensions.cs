@@ -1,6 +1,7 @@
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.OpenFga.Events;
 using Aspire.Hosting.OpenFga.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -62,6 +63,28 @@ public static class OpenFgaBuilderExtensions
             {
                 ctx.Args.Remove("--metrics-enabled=false");
                 ctx.Args.Add("--metrics-enabled=true");
+            });
+    }
+
+    public static IResourceBuilder<OpenFgaResource> WithTracing(this IResourceBuilder<OpenFgaResource> builder)
+    {
+        return builder.WithArgs("--trace-enabled=true")
+            .WithEnvironment("OPENFGA_TRACE_SAMPLE_RATIO", "1")
+            .WithOtlpExporter()
+            .WithEnvironment("OPENFGA_TRACE_OTLP_TLS_ENABLED", "true")
+            .WithEnvironment(ctx =>
+            {
+                // Hack until https://github.com/openfga/openfga/issues/2769
+                var config = ctx.ExecutionContext.ServiceProvider.GetRequiredService<IConfiguration>();
+                var otlpGrpcUrl = config.GetValue<string>("ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL")
+                                  ?? config.GetValue<string>("DOTNET_DASHBOARD_OTLP_ENDPOINT_URL");
+
+                if (otlpGrpcUrl is null)
+                    return;
+
+                var url = new UriBuilder(otlpGrpcUrl);
+
+                ctx.EnvironmentVariables["OPENFGA_TRACE_OTLP_ENDPOINT"] = $"host.docker.internal:{url.Port}";
             });
     }
 
