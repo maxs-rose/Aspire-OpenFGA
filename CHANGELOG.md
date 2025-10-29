@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v2.0.0...v2.1.0) (2025-10-29)
+
+
+### Features
+
+* Add `WithMetrics` option ([0534559](https://github.com/maxs-rose/Aspire-OpenFGA/commit/053455939dd7db902a7f25861c805dd3beddbc95))
+* Allow configuration of datastore ([2cdb4a4](https://github.com/maxs-rose/Aspire-OpenFGA/commit/2cdb4a41023e3bb38f0e3a9376fee86cfb6bb0d2))
+
 ## [2.0.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v1.1.1...v2.0.0) (2025-10-26)
 
 
