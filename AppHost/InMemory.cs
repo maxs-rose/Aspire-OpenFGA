@@ -8,6 +8,7 @@ public static class InMemory
     {
         builder.AddOpenFga("openfga-inmemory")
             .WithPlayground()
+            .WithTracing()
             .AddStore("inmemory-test-store")
             .WithModelDefinition("inmemory-models", Path.Join(builder.AppHostDirectory, "Test"), "fga.mod");
     }
