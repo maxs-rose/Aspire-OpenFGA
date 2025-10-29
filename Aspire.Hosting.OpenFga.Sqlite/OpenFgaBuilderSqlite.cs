@@ -6,6 +6,14 @@ public static class OpenFgaBuilderSqlite
 {
     public static IResourceBuilder<OpenFgaResource> WithDatastore(this IResourceBuilder<OpenFgaResource> builder, IResourceBuilder<SqliteResource> database)
     {
+        return builder.WithDatastore(database, static _ => { });
+    }
+
+    public static IResourceBuilder<OpenFgaResource> WithDatastore(
+        this IResourceBuilder<OpenFgaResource> builder,
+        IResourceBuilder<SqliteResource> database,
+        Action<IResourceBuilder<OpenFgaDatastoreResource>> configureDatastore)
+    {
         var datastore = OpenFgaDatastoreResource.CreateDatastore(builder)
             .WaitFor(database)
             .WithArgs("migrate")
@@ -39,6 +47,7 @@ public static class OpenFgaBuilderSqlite
                 res.Annotations.Add(new ContainerMountAnnotation(file.DirectoryName, "/database", ContainerMountType.BindMount, false));
             });
 
+        configureDatastore(datastore);
 
         return builder;
     }
