@@ -15,9 +15,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.Postgres"/>
-        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.MySql"/>
-        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.Sqlite"/>
+        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.Postgres" />
+        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.MySql" />
+        <InternalsVisibleTo Include="Aspire.Hosting.OpenFga.Sqlite" />
     </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Aspire.Hosting.OpenFga\Aspire.Hosting.OpenFga.csproj"/>
+        <ProjectReference Include="..\Aspire.Hosting.OpenFga\Aspire.Hosting.OpenFga.csproj" />
     </ItemGroup>
 
 </Project>

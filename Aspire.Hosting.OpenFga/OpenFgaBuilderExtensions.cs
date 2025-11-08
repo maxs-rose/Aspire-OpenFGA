@@ -69,6 +69,7 @@ public static class OpenFgaBuilderExtensions
     public static IResourceBuilder<OpenFgaResource> WithTracing(this IResourceBuilder<OpenFgaResource> builder)
     {
         return builder.WithArgs("--trace-enabled=true")
+            .WithDeveloperCertificateTrust(true)
             .WithEnvironment("OPENFGA_TRACE_SAMPLE_RATIO", "1")
             .WithOtlpExporter()
             .WithEnvironment("OPENFGA_TRACE_OTLP_TLS_ENABLED", "true")
