@@ -1,3 +1,4 @@
+using System.Globalization;
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.OpenFga.Events;
 using Aspire.Hosting.OpenFga.Models;
@@ -66,26 +67,23 @@ public static class OpenFgaBuilderExtensions
             });
     }
 
-    public static IResourceBuilder<OpenFgaResource> WithTracing(this IResourceBuilder<OpenFgaResource> builder)
+    public static IResourceBuilder<OpenFgaResource> WithTracing(this IResourceBuilder<OpenFgaResource> builder, float sampleRatio = 1)
     {
         return builder.WithArgs("--trace-enabled=true")
             .WithDeveloperCertificateTrust(true)
-            .WithEnvironment("OPENFGA_TRACE_SAMPLE_RATIO", "1")
+            .WithEnvironment("OPENFGA_TRACE_SAMPLE_RATIO", sampleRatio.ToString(CultureInfo.InvariantCulture))
             .WithOtlpExporter()
             .WithEnvironment("OPENFGA_TRACE_OTLP_TLS_ENABLED", "true")
             .WithEnvironment(ctx =>
             {
                 // Hack until https://github.com/openfga/openfga/issues/2769
                 var config = ctx.ExecutionContext.ServiceProvider.GetRequiredService<IConfiguration>();
+                // From: https://github.com/dotnet/aspire/blob/3d530d769aeabe2a7b36bc616a7103cb2f0822f5/src/Aspire.Hosting/OtlpConfigurationExtensions.cs#L112-L146
                 var otlpGrpcUrl = config.GetValue<string>("ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL")
-                                  ?? config.GetValue<string>("DOTNET_DASHBOARD_OTLP_ENDPOINT_URL");
+                                  ?? config.GetValue<string>("DOTNET_DASHBOARD_OTLP_ENDPOINT_URL")
+                                  ?? "http://localhost:18889";
 
-                if (otlpGrpcUrl is null)
-                    return;
-
-                var url = new UriBuilder(otlpGrpcUrl);
-
-                ctx.EnvironmentVariables["OPENFGA_TRACE_OTLP_ENDPOINT"] = $"host.docker.internal:{url.Port}";
+                ctx.EnvironmentVariables["OPENFGA_TRACE_OTLP_ENDPOINT"] = new FgaHostUrl(otlpGrpcUrl);
             });
     }
 
