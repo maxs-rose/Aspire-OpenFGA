@@ -151,6 +151,16 @@ builder.AddOpenFga("openfga")
 > [!IMPORTANT]
 > Ordering is not guaranteed between `WihthModelDefinition` and `WithClientCallback`
 
+## Tracing
+
+By default, pusing otel traces into Aspire is disabled. To enable `WithTracing` should be used. This
+will use a sample rate of 100% by default when enabled.
+
+```c#
+builder.AddOpenFga("openfga")
+    .WithTracing(sampleRaito: 1);
+```
+
 ## Metrics
 
 By default, the metrics endpoint is disabled. To enable `WithMetrics` should be used. By default this will
