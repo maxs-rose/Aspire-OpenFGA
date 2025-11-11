@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v2.1.0...v3.0.0) (2025-11-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update to Aspire 13
+
+### Features
+
+* Add support for otel tracing ([#11](https://github.com/maxs-rose/Aspire-OpenFGA/issues/11)) ([04088b4](https://github.com/maxs-rose/Aspire-OpenFGA/commit/04088b496fdafdf2bd3e309626b33b1eb6c2c4f1))
+* Update to Aspire 13 ([a929d2f](https://github.com/maxs-rose/Aspire-OpenFGA/commit/a929d2fab3629b0b6dc8376e2f1d9b075cf8b6ae))
+
 ## [2.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v2.0.0...v2.1.0) (2025-10-29)
 
 
