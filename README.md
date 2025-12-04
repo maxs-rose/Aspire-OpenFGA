@@ -21,10 +21,10 @@
 
 # Installation
 
-![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga?label=Toothless.Aspire.Hosting.OpenFga)
-![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Postgres?label=Toothless.Aspire.Hosting.OpenFga.Postgres)
-![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.MySQL?label=Toothless.Aspire.Hosting.OpenFga.MySQL)
-![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Sqlite?label=Toothless.Aspire.Hosting.OpenFga.Sqlite)
+[![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga?label=Toothless.Aspire.Hosting.OpenFga)](https://www.nuget.org/packages/Toothless.Aspire.Hosting.OpenFga)
+[![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Postgres?label=Toothless.Aspire.Hosting.OpenFga.Postgres)](https://www.nuget.org/packages/Toothless.Aspire.Hosting.OpenFga.Postgres)
+[![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.MySQL?label=Toothless.Aspire.Hosting.OpenFga.MySQL)](https://www.nuget.org/packages/Toothless.Aspire.Hosting.OpenFga.MySql)
+[![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Sqlite?label=Toothless.Aspire.Hosting.OpenFga.Sqlite)](https://www.nuget.org/packages/Toothless.Aspire.Hosting.OpenFga.Sqlite)
 
 Core package: `Toothless.Aspire.Hosting.OpenFga`
 
