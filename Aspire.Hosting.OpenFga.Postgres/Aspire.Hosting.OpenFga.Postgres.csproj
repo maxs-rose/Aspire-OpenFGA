@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <RootNamespace>Aspire.Hosting.OpenFga</RootNamespace>
         <Product>Aspire.Hosting.OpenFga.Postgres</Product>
-        <PackageId>Aspire.Hosting.OpenFga.Postgres</PackageId>
+        <PackageId>$(PackagePrefix)Aspire.Hosting.OpenFga.Postgres</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

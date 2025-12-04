@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Product>Aspire.Hosting.OpenFga.Sqlite</Product>
-        <PackageId>Aspire.Hosting.OpenFga.Sqlite</PackageId>
+        <PackageId>$(PackagePrefix)Aspire.Hosting.OpenFga.Sqlite</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

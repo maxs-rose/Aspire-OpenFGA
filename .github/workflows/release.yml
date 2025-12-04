@@ -4,13 +4,15 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+  id-token: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      packages: write
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
@@ -32,19 +34,21 @@ jobs:
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
-            10.x
 
       - name: Build
         run: dotnet build --configuration Release
 
-      - name: Pack
-        run: dotnet pack -c Release --output nupkgs --no-build
+      - name: Pack GitHub
+        run: dotnet pack -c Release --output nupkgs/github
+
+      - name: Pack NuGet
+        run: dotnet pack -c Release --output nupkgs/nuget /p:PackagePrefix=Toothless.
 
       - name: Push Artifact
         uses: actions/upload-artifact@v4
         with:
           name: latest
-          path: ./nupkgs/*.nupkg
+          path: ./nupkgs/**/*.nupkg
   
   push-guthub:
     name: Push GitHub Nuget
@@ -58,8 +62,17 @@ jobs:
         with:
           name: latest
 
+      - name: NuGet Login
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: toothless
+
       - name: Dotnet NuGet Add Source
         run: dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --name github --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
 
-      - name: Dotnet NuGet Push
-        run: dotnet nuget push *.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate
+      - name: Dotnet NuGet Push (GitHub)
+        run: dotnet nuget push nupkg/github/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate
+
+      - name: Dotnet NuGet Push (NuGet)
+        run: dotnet nuget push nupkg/nuget/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
