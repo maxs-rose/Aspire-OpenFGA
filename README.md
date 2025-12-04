@@ -73,7 +73,7 @@ builder.AddOpenFga("openfga")
 ```
 
 > [!NOTE]
-> This depnds on `Toothless.Aspire.Hosting.PostgreSQL`
+> This depends on `Aspire.Hosting.PostgreSQL`
 
 ### MySql
 
@@ -89,7 +89,7 @@ builder.AddOpenFga("openfga")
 ```
 
 > [!NOTE]
-> This depnds on `Toothless.Aspire.Hosting.MySql`
+> This depends on `Aspire.Hosting.MySql`
 
 ### Sqlite
 
