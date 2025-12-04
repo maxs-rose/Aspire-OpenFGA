@@ -22,8 +22,8 @@ jobs:
   
   publish:
     name: Publish
-    needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
+    #    needs: release-please
+    #    if: ${{ needs.release-please.outputs.release_created }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -49,7 +49,7 @@ jobs:
   
   push-guthub:
     name: Push GitHub Nuget
-    needs: publish
+    #    needs: publish
     permissions:
       packages: write
       id-token: write
@@ -70,7 +70,7 @@ jobs:
         run: dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --name github --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
 
       - name: Dotnet NuGet Push (GitHub)
-        run: dotnet nuget push nupkg/github/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate
+        run: dotnet nuget push nupkgs/github/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate
 
       - name: Dotnet NuGet Push (NuGet)
-        run: dotnet nuget push nupkg/nuget/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push nupkgs/nuget/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
