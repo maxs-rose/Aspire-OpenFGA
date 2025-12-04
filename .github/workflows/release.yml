@@ -41,25 +41,6 @@ jobs:
       - name: Pack NuGet
         run: dotnet pack -c Release --output nupkgs/nuget /p:PackagePrefix=Toothless.
 
-      - name: Push Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: latest
-          path: ./nupkgs/**/*.nupkg
-  
-  push-guthub:
-    name: Push GitHub Nuget
-    needs: publish
-    permissions:
-      packages: write
-      id-token: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: latest
-
       - name: NuGet Login
         uses: NuGet/login@v1
         id: nuget-login
