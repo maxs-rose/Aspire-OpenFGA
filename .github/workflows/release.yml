@@ -22,8 +22,8 @@ jobs:
   
   publish:
     name: Publish
-    #    needs: release-please
-    #    if: ${{ needs.release-please.outputs.release_created }}
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
