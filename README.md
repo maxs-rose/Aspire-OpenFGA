@@ -21,13 +21,21 @@
 
 # Installation
 
-Core package: `Aspire.Hosting.OpenFga`
+![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga?label=Toothless.Aspire.Hosting.OpenFga)
+![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Postgres?label=Toothless.Aspire.Hosting.OpenFga.Postgres)
+![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.MySQL?label=Toothless.Aspire.Hosting.OpenFga.MySQL)
+![NuGet Version](https://img.shields.io/nuget/v/Toothless.Aspire.Hosting.OpenFga.Sqlite?label=Toothless.Aspire.Hosting.OpenFga.Sqlite)
+
+Core package: `Toothless.Aspire.Hosting.OpenFga`
 
 Engine packages:
 
-- `Aspire.Hosting.OpenFga.Postgres`
-- `Aspire.Hosting.OpenFga.MySQL`
-- `Aspire.Hosting.OpenFga.Sqlite`
+- `Toothless.Aspire.Hosting.OpenFga.Postgres`
+- `Toothless.Aspire.Hosting.OpenFga.MySQL`
+- `Toothless.Aspire.Hosting.OpenFga.Sqlite`
+
+> [!NOTE]
+> The packages are also available on GitHub packages without the `Toothless.` prefix
 
 # Usage
 
@@ -53,7 +61,7 @@ if a store with the same name already exists.
 
 ### Postgres
 
-To use the postgres engine install `Aspire.Hosting.OpenFga.Postgres` and call `WithDatastore`
+To use the postgres engine install `Toothless.Aspire.Hosting.OpenFga.Postgres` and call `WithDatastore`
 on the OpenFGA resource.
 
 ```c#
@@ -65,11 +73,11 @@ builder.AddOpenFga("openfga")
 ```
 
 > [!NOTE]
-> This depnds on `Aspire.Hosting.PostgreSQL`
+> This depnds on `Toothless.Aspire.Hosting.PostgreSQL`
 
 ### MySql
 
-To use the postgres engine install `Aspire.Hosting.OpenFga.MySQL` and call `WithDatastore`
+To use the postgres engine install `Toothless.Aspire.Hosting.OpenFga.MySQL` and call `WithDatastore`
 on the OpenFGA resource.
 
 ```c#
@@ -81,11 +89,11 @@ builder.AddOpenFga("openfga")
 ```
 
 > [!NOTE]
-> This depnds on `Aspire.Hosting.MySql`
+> This depnds on `Toothless.Aspire.Hosting.MySql`
 
 ### Sqlite
 
-To use the postgres engine install `Aspire.Hosting.OpenFga.Sqlite` and call `WithDatastore`
+To use the postgres engine install `Toothless.Aspire.Hosting.OpenFga.Sqlite` and call `WithDatastore`
 on the OpenFGA resource.
 
 ```c#
