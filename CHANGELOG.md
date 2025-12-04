@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v3.0.0...v3.1.0) (2025-12-04)
+
+
+### Features
+
+* Publish to nuget ([5600c62](https://github.com/maxs-rose/Aspire-OpenFGA/commit/5600c6259e69d46214c0a7ea82d887bfc1b8a196))
+
 ## [3.0.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v2.1.0...v3.0.0) (2025-11-11)
 
 
