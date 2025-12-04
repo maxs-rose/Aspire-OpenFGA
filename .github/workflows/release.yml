@@ -49,7 +49,7 @@ jobs:
   
   push-guthub:
     name: Push GitHub Nuget
-    #    needs: publish
+    needs: publish
     permissions:
       packages: write
       id-token: write
