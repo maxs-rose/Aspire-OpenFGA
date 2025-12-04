@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.0...v4.0.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* Correct package names in readme ([9f5ab76](https://github.com/maxs-rose/Aspire-OpenFGA/commit/9f5ab76755fc7da5a995c8a28f987ca66379e541))
+
 ## [4.0.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v3.1.0...v4.0.0) (2025-12-04)
 
 
