@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <PackagePrefix/>
-        <Version>4.0.0</Version>
+        <Version>4.0.1</Version>
         <Authors>Max Rose</Authors>
         <Company>Max Rose</Company>
         <PackageIcon>icon.png</PackageIcon>
