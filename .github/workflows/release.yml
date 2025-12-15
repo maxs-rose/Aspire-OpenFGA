@@ -37,13 +37,13 @@ jobs:
           dotnet-version: |
 
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release -p:ContinuousIntegrationBuild=true
 
       - name: Pack GitHub
-        run: dotnet pack -c Release --output nupkgs/github
+        run: dotnet pack -c Release --output nupkgs/github -p:ContinuousIntegrationBuild=true
 
       - name: Pack NuGet
-        run: dotnet pack -c Release --output nupkgs/nuget /p:PackagePrefix=Toothless.
+        run: dotnet pack -c Release --output nupkgs/nuget /p:PackagePrefix=Toothless. -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:DebugType=portable -p:ContinuousIntegrationBuild=true
 
       - name: NuGet Login
         uses: NuGet/login@v1
@@ -57,5 +57,8 @@ jobs:
       - name: Dotnet NuGet Push (GitHub)
         run: dotnet nuget push nupkgs/github/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate
 
-      - name: Dotnet NuGet Push (NuGet)
+      - name: Dotnet NuGet Push Package (NuGet)
         run: dotnet nuget push nupkgs/nuget/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Dotnet NuGet Push Symbols (NuGet)
+        run: dotnet nuget push nupkgs/nuget/*.snupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
