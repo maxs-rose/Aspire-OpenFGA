@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.3](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.2...v4.0.3) (2025-12-15)
+
+
+### Bug Fixes
+
+* Add debug symbols into nuget packge ([28014ac](https://github.com/maxs-rose/Aspire-OpenFGA/commit/28014ac431bf3105c109ab3577da9ba0a900c39a))
+
 ## [4.0.2](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.1...v4.0.2) (2025-12-04)
 
 
