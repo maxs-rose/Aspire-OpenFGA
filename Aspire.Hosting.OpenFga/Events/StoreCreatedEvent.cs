@@ -10,4 +10,11 @@ internal sealed class StoreCreatedEvent(OpenFgaStoreResource resource, string co
     public IResource Resource { get; } = resource;
 }
 
-internal sealed record StoreModelWriteAnnotation(IResource Store, string ImportName) : IResourceAnnotation;
+internal sealed record StoreModelWriteAnnotation(OpenFgaStoreResource Store, string ImportName) : IResourceAnnotation;
+
+internal sealed class AuthorizationModelWrittenEvent(OpenFgaStoreResource resource, string authorizationModel, IServiceProvider serviceProvider) : IDistributedApplicationResourceEvent
+{
+    public string AuthorizationModel { get; } = authorizationModel;
+    public IServiceProvider ServiceProvider { get; } = serviceProvider;
+    public IResource Resource { get; } = resource;
+}

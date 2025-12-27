@@ -139,6 +139,19 @@ builder.AddOpenFga("openfga")
     .WithModelDefinition("models", Path.Join(builder.AppHostDirectory, "Models"), "fga.mod");
 ```
 
+## Authorization Model Reference
+
+The ID of the authothorization model imported in [`WithModelDefinition`](#model-definition) can be set
+using `WithAuthorizationModel`.
+
+```c#
+var store = builder.AddOpenFga("openfga")
+    .AddStore("my-store")
+    .WithModelDefinition("models", Path.Join(builder.AppHostDirectory, "Models"), "fga.mod");
+
+otherResource.WithAuthorizationModelId("AUTH_MODEL_ID", store);
+```
+
 ## Client Callbacks
 
 For arbitrary client callbacks use `WithClientCallback`. This will add a callback that will be called

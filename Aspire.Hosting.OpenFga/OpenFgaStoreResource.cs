@@ -13,16 +13,28 @@ public sealed class OpenFgaStoreResource(OpenFgaResource parent, string name)
     : Resource(name), IResourceWithParent<OpenFgaResource>, IValueProvider
 {
     private readonly List<StoreClientCallback> _clientCallbacks = [];
+    private readonly TaskCompletionSource _storeReadyTcs = new();
     private string _storeId = string.Empty;
-    internal TaskCompletionSource StoreReadyTcs { get; } = new();
+    internal string AuthorizationModel { private get; set; } = string.Empty;
+    internal TaskCompletionSource? AuthorizationModelReadyTcs { get; set; }
 
     public OpenFgaResource Parent { get; } = parent;
 
     public async ValueTask<string?> GetValueAsync(CancellationToken ct = new())
     {
-        await StoreReadyTcs.Task.WaitAsync(ct).ConfigureAwait(false);
+        await _storeReadyTcs.Task.WaitAsync(ct).ConfigureAwait(false);
 
         return _storeId;
+    }
+
+    public async ValueTask<string> GetAuthorizationModel(CancellationToken ct = new())
+    {
+        if (AuthorizationModelReadyTcs is null)
+            return AuthorizationModel;
+
+        await AuthorizationModelReadyTcs.Task.WaitAsync(ct).ConfigureAwait(false);
+
+        return AuthorizationModel;
     }
 
     internal async Task Initialize(InitializeResourceEvent ctx, CancellationToken ct)
@@ -50,6 +62,15 @@ public sealed class OpenFgaStoreResource(OpenFgaResource parent, string name)
         }
     }
 
+    internal async Task<OpenFgaClient> StoreClient()
+    {
+        return new OpenFgaClient(new ClientConfiguration
+        {
+            ApiUrl = $"{await ReferenceExpression.Create($"{Parent.HttpEndpoint}").GetValueAsync(CancellationToken.None)}",
+            StoreId = await GetValueAsync()
+        });
+    }
+
     private async Task<bool> CreateStore(ILogger logger, CancellationToken ct)
     {
         logger.LogInformation("Creating store");
@@ -71,7 +92,7 @@ public sealed class OpenFgaStoreResource(OpenFgaResource parent, string name)
         }
         finally
         {
-            StoreReadyTcs.SetResult();
+            _storeReadyTcs.SetResult();
         }
 
         return !string.IsNullOrEmpty(_storeId);

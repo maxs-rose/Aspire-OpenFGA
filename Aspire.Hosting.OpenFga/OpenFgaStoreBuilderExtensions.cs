@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Aspire.Hosting.ApplicationModel;
+using Aspire.Hosting.Eventing;
 using Aspire.Hosting.OpenFga.Events;
 using Aspire.Hosting.OpenFga.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,14 @@ public static class OpenFgaStoreBuilderExtensions
     {
         builder.WithReferenceRelationship(store);
         return builder.WithEnvironment(ctx => ctx.EnvironmentVariables[name] = store.Resource);
+    }
+
+    public static IResourceBuilder<T> WithAuthorizationModelId<T>(this IResourceBuilder<T> builder, string name, IResourceBuilder<OpenFgaStoreResource> store)
+        where T : IResourceWithEnvironment
+    {
+        return builder
+            .WithReferenceRelationship(store)
+            .WithEnvironment(async context => { context.EnvironmentVariables[name] = await store.Resource.GetAuthorizationModel(context.CancellationToken); });
     }
 
     extension(IResourceBuilder<OpenFgaStoreResource> builder)
@@ -37,9 +47,18 @@ public static class OpenFgaStoreBuilderExtensions
                 .WithParentRelationship(builder)
                 .WithAnnotation(annotation);
 
+            builder.Resource.AuthorizationModelReadyTcs = new TaskCompletionSource();
+            builder.ApplicationBuilder.Eventing.Subscribe<AuthorizationModelWrittenEvent>(builder.Resource, (ctx, _) =>
+            {
+                var resource = (OpenFgaStoreResource)ctx.Resource;
+                resource.AuthorizationModel = ctx.AuthorizationModel;
+                resource.AuthorizationModelReadyTcs!.SetResult();
+
+                return Task.CompletedTask;
+            });
             builder.WithAnnotation(annotation);
 
-            res.ApplicationBuilder.Eventing.Subscribe<ResourceStoppedEvent>(res.Resource, static (ctx, _) =>
+            res.ApplicationBuilder.Eventing.Subscribe<ResourceStoppedEvent>(res.Resource, static async (ctx, _) =>
             {
                 var annotation = ctx.Resource.Annotations.OfType<StoreModelWriteAnnotation>().Single();
                 var logger = ctx.Services.GetRequiredService<ResourceLoggerService>().GetLogger(annotation.Store);
@@ -47,16 +66,28 @@ public static class OpenFgaStoreBuilderExtensions
                 if (ctx.ResourceEvent.Snapshot.ExitCode is not (null or 0))
                 {
                     logger.LogError("Failed to import {Models} from file", annotation.ImportName);
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 logger.LogInformation("Imported {Models} from file", annotation.ImportName);
-                return ctx.Services.GetRequiredService<ResourceNotificationService>().PublishUpdateAsync(
+                await ctx.Services.GetRequiredService<ResourceNotificationService>().PublishUpdateAsync(
                     ctx.Resource,
                     static snap => snap with
                     {
                         IsHidden = true
                     });
+
+                var storeClient = await annotation.Store.StoreClient();
+
+                var model = await storeClient.ReadLatestAuthorizationModel(cancellationToken: _);
+                var modelId = model?.AuthorizationModel?.Id;
+
+                Debug.Assert(modelId is not null, "Model ID should not be null here");
+
+                await ctx.Services.GetRequiredService<IDistributedApplicationEventing>().PublishAsync(
+                    new AuthorizationModelWrittenEvent(annotation.Store, modelId, ctx.Services),
+                    _
+                );
             });
 
             return builder;
