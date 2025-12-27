@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.3...v4.1.0) (2025-12-27)
+
+
+### Features
+
+* Add `WithAuthorizationModelId` ([baa5e6a](https://github.com/maxs-rose/Aspire-OpenFGA/commit/baa5e6a52d68dc05a2b696608c794bf3ba93cc58))
+
 ## [4.0.3](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.2...v4.0.3) (2025-12-15)
 
 
