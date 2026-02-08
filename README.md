@@ -104,11 +104,11 @@ builder.AddOpenFga("openfga")
 ```
 
 > [!NOTE]
-> This depnds on `CommunityToolkit.Aspire.Hosting.Sqlite`
+> This depends on `CommunityToolkit.Aspire.Hosting.Sqlite`
 
 ### Custom Engine
 
-To use a custom engine users shoud call `WithDatastore(engine, datastoreUri)` on the OpenFGA
+To use a custom engine users should call `WithDatastore(engine, datastoreUri)` on the OpenFGA
 resource. This will return an instance of `IResourceBuilder<OpenFgaDatastoreResource>` configuring
 the parent `OpenFgaResource`'s and the `OpenFgaDatastoreResource` resources
 `OPENFGA_DATASTORE_ENGINE`, `OPENFGA_DATASTORE_URI` environment variables. The relationshiop between
@@ -130,7 +130,7 @@ builder.AddOpenFga("openfga")
 
 ## Model Definition
 
-Models can be imported from files using `WithModelDefinition`. This will import the modes from the
+Models can be imported from files using `WithModelDefinition`. This will import the models from the
 specified path into the store the method was called on.
 
 ```c#
@@ -141,7 +141,7 @@ builder.AddOpenFga("openfga")
 
 ## Authorization Model Reference
 
-The ID of the authothorization model imported in [`WithModelDefinition`](#model-definition) can be set
+The ID of the authorization model imported in [`WithModelDefinition`](#model-definition) can be set
 using `WithAuthorizationModel`.
 
 ```c#
@@ -174,12 +174,12 @@ builder.AddOpenFga("openfga")
 
 ## Tracing
 
-By default, pusing otel traces into Aspire is disabled. To enable `WithTracing` should be used. This
+By default, pushing otel traces into Aspire is disabled. To enable `WithTracing` should be used. This
 will use a sample rate of 100% by default when enabled.
 
 ```c#
 builder.AddOpenFga("openfga")
-    .WithTracing(sampleRaito: 1);
+    .WithTracing(sampleRatio: 1);
 ```
 
 ## Metrics
