@@ -50,8 +50,8 @@ var store = openFga.AddStore("my-store")
     .WithModelDefinition("models", Path.Join(builder.AppHostDirectory, "Models"), "fga.mod");
 
 builder.AddProject<MyProject>("project")
-    .WithEnvironment("OpenFga__Connection", store.HttpEndpoint)
-    .WithEnvironment("OpenFga__Store", store)
+    .WithEnvironment("OpenFga__Connection", openFga.GetEndpoint("http"))
+    .WithEnvironment("OpenFga__Store", store);
 ```
 
 The `AddStore` method will adopt the Store ID of an existing store in the `openFga` resource
