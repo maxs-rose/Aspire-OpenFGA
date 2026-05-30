@@ -40,7 +40,7 @@ public static class OpenFgaBuilderExtensions
         {
             builder.Resource.Annotations.OfType<EndpointAnnotation>().Single(e => e.Name == "http").IsProxied = false;
 
-            return builder.WithArgs("--playground-enabled", "--playground-port", "3001")
+            return builder.WithArgs("--playground-enabled", "--playground-addr", "0.0.0.0:3001")
                 .WithArgs(ctx => ctx.Args.Remove("--playground-enabled=false"))
                 .WithHttpEndpoint(name: "playground", targetPort: 3001)
                 .WithUrlForEndpoint("playground", x =>
