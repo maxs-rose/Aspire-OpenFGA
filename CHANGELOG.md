@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.1.0...v4.1.1) (2026-05-30)
+
+
+### Bug Fixes
+
+* Pass `--playground-addr` to playground ([a3ccaff](https://github.com/maxs-rose/Aspire-OpenFGA/commit/a3ccaff1e0a7521a72538e923f7e6b19d336f1eb))
+
 ## [4.1.0](https://github.com/maxs-rose/Aspire-OpenFGA/compare/v4.0.3...v4.1.0) (2025-12-27)
 
 
